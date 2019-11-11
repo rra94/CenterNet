@@ -3,37 +3,6 @@
 
 **CenterNet is an one-stage detector which gets trained from scratch. On the MS-COCO dataset, CenterNet achieves an AP of 47.0%, which surpasses all known one-stage detectors, and even gets very close to the top-performance two-stage detectors.**
 
-## Abstract
-
-  In object detection, keypoint-based approaches often suffer a large number of incorrect object bounding boxes, arguably due to the lack of an additional look into the cropped regions. This paper presents an efficient solution which explores the visual patterns within each cropped region with minimal costs. We build our framework upon a representative one-stage keypoint-based detector named CornerNet.
-Our approach, named CenterNet, detects each object as a triplet, rather than a pair, of keypoints, which improves both precision and recall. Accordingly, we design two customized modules named cascade corner pooling and center pooling, which play the roles of enriching information collected by both top-left and bottom-right corners and providing more recognizable information at the central regions, respectively. On the MS-COCO dataset, CenterNet achieves an AP of 47.0%, which outperforms all existing one-stage detectors by a large margin. Meanwhile, with a faster inference speed, CenterNet demonstrates quite comparable performance to the top-ranked two-stage detectors.
-
-## Introduction
-
-CenterNet is a framework for object detection with deep convolutional neural networks. You can use the code to train and evaluate a network for object detection on the MS-COCO dataset.
-
-* It achieves state-of-the-art performance (an AP of 47.0%) on one of the most challenging dataset: MS-COCO.
-
-* Our code is written in Python, based on [CornerNet](https://github.com/princeton-vl/CornerNet).
-
-*More detailed descriptions of our approach and code will be made available soon.*
-
-**If you encounter any problems in using our code, please contact Kaiwen Duan: kaiwen.duan@vipl.ict.ac.cn.**
-
-## Architecture
-
-![Network_Structure](https://github.com/Duankaiwen/CenterNet/blob/master/Network_Structure.jpg)
-
-## Comparison with other methods
-
-![Tabl](https://github.com/Duankaiwen/CenterNet/blob/master/Table1.png)
-
-![Tabl](https://github.com/Duankaiwen/CenterNet/blob/master/Table2.png)
-
-![Tabl](https://github.com/Duankaiwen/CenterNet/blob/master/Table3.png)
-
-  In terms of speed, we test the inference speed of both CornerNet and CenterNet on a NVIDIA Tesla P100 GPU. We obtain that the average inference time of CornerNet511-104 (means that the resolution of input images is 511X511 and the backbone is Hourglass-104) is 300ms per image and that of CenterNet511-104 is 340ms. Meanwhile, using the Hourglass-52 backbone can speed up the inference speed. Our CenterNet511-52 takes an average of 270ms to process per image, which is faster and more accurate than CornerNet511-104.
-
 ## Preparation
 Please first install [Anaconda](https://anaconda.org) and create an Anaconda environment using following commands.
 ```
@@ -66,6 +35,8 @@ make
 - Download the images (2014 Train, 2014 Val, 2017 Test) from [here](http://cocodataset.org/#download)
 - Create 3 directories, `trainval2014`, `minival2014` and `testdev2017`, under `<CenterNet dir>/data/coco/images/`
 - Copy the training/validation/testing images to the corresponding directories according to the annotation files
+
+N.B. 2014 Train has 82783 images. 2014 Val has 40504 images. These two are both put in trainval2014 folder (123287 images). The provided training/validation split (instances_minival2017.json and instances_trainval2017.json) then extracts 5000 for validation and uses the rest 118287 for training. 
 
 ## Training and Evaluation
 
