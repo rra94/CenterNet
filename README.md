@@ -1,4 +1,4 @@
-# CenterNet - PyTorch 1.0
+# CenterNet - PyTorch 1.0 - Tensorboard
 [CenterNet: Keypoint Triplets for Object Detection](https://arxiv.org/abs/1904.08189)
 
 **CenterNet is an one-stage detector which gets trained from scratch. On the MS-COCO dataset, CenterNet achieves an AP of 47.0%, which surpasses all known one-stage detectors, and even gets very close to the top-performance two-stage detectors.**
@@ -75,4 +75,10 @@ python test.py CenterNet-52 --testiter <iter> --split <split> --suffix multi_sca
 or
 ```
 python test.py CenterNet-104 --testiter <iter> --split <split> --suffix multi_scale
+```
+
+## Tensorboard
+The training curves for all the losses (training, focal, pull, push, regr) can be visualized with:
+```
+tensorboard --logdir "logs"
 ```
