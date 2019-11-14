@@ -18,6 +18,7 @@ from config import system_configs
 from nnet.py_factory import NetworkFactory
 from torch.multiprocessing import Process, Queue, Pool
 from db.datasets import datasets
+from tensorboard_api import Tensorboard
 
 torch.backends.cudnn.enabled   = True
 torch.backends.cudnn.benchmark = True
@@ -129,6 +130,9 @@ def train(training_dbs, validation_db, start_iter=0):
     else:
         nnet.set_lr(learning_rate)
 
+    # defining tensorboard writer
+    tensorboard = Tensorboard('logs')
+
     print("training start...")
     nnet.cuda()
     nnet.train_mode()
@@ -161,6 +165,9 @@ def train(training_dbs, validation_db, start_iter=0):
             if iteration % stepsize == 0:
                 learning_rate /= decay_rate
                 nnet.set_lr(learning_rate)
+    
+    # closing tensorboard writer
+    tensorboard.close()
 
     # sending signal to kill the thread
     training_pin_semaphore.release()
