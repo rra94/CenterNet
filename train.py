@@ -162,7 +162,7 @@ def train(training_dbs, validation_db, start_iter=0):
                 validation = pinned_validation_queue.get(block=True)
                 validation_loss = nnet.validate(**validation)
                 print("validation loss at iteration {}: {}".format(iteration, validation_loss.item()))
-                tensorboard.log_scalar('validation/loss', training_loss.item(), iteration)
+                tensorboard.log_scalar('validation/loss', validation_loss.item(), iteration)
                 nnet.train_mode()
 
             if iteration % snapshot == 0:
