@@ -149,6 +149,11 @@ def train(training_dbs, validation_db, start_iter=0):
                 print("push loss at iteration {}:     {}".format(iteration, push_loss.item()))
                 print("regr loss at iteration {}:     {}".format(iteration, regr_loss.item()))
                 #print("cls loss at iteration {}:      {}\n".format(iteration, cls_loss.item()))
+                tensorboard.log_scalar('training/total loss', training_loss.item(), iteration)
+                tensorboard.log_scalar('training/focal loss', focal_loss.item(), iteration)
+                tensorboard.log_scalar('training/pull loss', pull_loss.item(), iteration)
+                tensorboard.log_scalar('training/push loss', push_loss.item(), iteration)
+                tensorboard.log_scalar('training/regr loss', regr_loss.item(), iteration)
 
             del training_loss, focal_loss, pull_loss, push_loss, regr_loss#, cls_loss
 
@@ -157,6 +162,7 @@ def train(training_dbs, validation_db, start_iter=0):
                 validation = pinned_validation_queue.get(block=True)
                 validation_loss = nnet.validate(**validation)
                 print("validation loss at iteration {}: {}".format(iteration, validation_loss.item()))
+                tensorboard.log_scalar('validation/loss', training_loss.item(), iteration)
                 nnet.train_mode()
 
             if iteration % snapshot == 0:
