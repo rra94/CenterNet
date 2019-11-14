@@ -18,7 +18,7 @@ from config import system_configs
 from nnet.py_factory import NetworkFactory
 from torch.multiprocessing import Process, Queue, Pool
 from db.datasets import datasets
-from tensorboard_api import Tensorboard
+from utils.tensorboard_api import Tensorboard
 
 torch.backends.cudnn.enabled   = True
 torch.backends.cudnn.benchmark = True
