@@ -1,4 +1,4 @@
-name: CenterNet-PT10-TF-Test
+name: CenterNet-PT10-TF
 channels:
   - <unknown>
   - https://repo.continuum.io/pkgs/free
