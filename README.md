@@ -7,7 +7,7 @@
 Please first install [Anaconda](https://anaconda.org) and create an Anaconda environment using following commands.
 ```
 conda env create -f packagelist.yml
-conda activate CornerNet-PT10
+conda activate CenterNet-PT10-TF
 conda install pytorch==1.0.0 torchvision==0.2.1 cuda100 -c pytorch
 ```
 
