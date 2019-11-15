@@ -66,7 +66,7 @@ def kp_detection(db, nnet, result_dir, debug=False, decode_func=kp_decode, subse
     else:
         db_inds = db.db_inds[:100] if debug else db.db_inds[:5000]
     if subset_val:		
-        db_inds = db.db_inds[:100]
+        db_inds = db.db_inds[:1000]
     num_images = db_inds.size
 
     K             = db.configs["top_k"]

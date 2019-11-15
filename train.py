@@ -155,7 +155,8 @@ def train(training_dbs, validation_db, start_iter=0):
                 validation_loss = nnet.validate(**validation)
                 print("validation loss at iteration {}: {}".format(iteration, validation_loss.item()))
                 tensorboard.log_scalar('validation/loss', validation_loss.item(), iteration)
-                kp_detection(validation_db, nnet, "./cache/", debug=False, subset_val=True,  TB_obj=tensorboard, TB_iter=iteration)
+                if iteration % (val_iter*2) == 0:
+                    kp_detection(validation_db, nnet, "./cache/", debug=False, subset_val=True,  TB_obj=tensorboard, TB_iter=iteration)
                 nnet.train_mode()
 
             if iteration % snapshot == 0:
