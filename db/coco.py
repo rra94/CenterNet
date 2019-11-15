@@ -164,7 +164,7 @@ class MSCOCO(DETECTION):
                     detections.append(detection)
         return detections
 
-    def evaluate(self, result_json, cls_ids, image_ids, gt_json=None):
+    def evaluate(self, result_json, cls_ids, image_ids, gt_json=None, TB_obj=None, TB_iter=0):
         if self._split == "testdev":
             return None
 
@@ -180,7 +180,18 @@ class MSCOCO(DETECTION):
         coco_eval.evaluate()
         coco_eval.accumulate()
         coco_eval.summarize()
+        if TB_obj:
+            coco_eval_stats = coco_eval.stats
+            for idX, eleX in enumerate(["/AP-Total", "/AP/IoU-0.50", "/AP/IoU-0.75", "/AP/Area-small",
+                                        "/AP/Area-medium", "/AP/Area-large", "/AR-Total", "/AR/IoU-0.50",
+                                        "/AR/IoU-0.75", "/AR/Area-small", "/AR/Area-medium", "/AR/Area-large"]):
+                TB_obj.log_scalar('validation' + eleX, coco_eval_stats[idX], TB_iter)
         coco_eval.evaluate_fd()
         coco_eval.accumulate_fd()
         coco_eval.summarize_fd()
+        if TB_obj:
+            coco_eval_stats = coco_eval.stats
+            for idX, eleX in enumerate(["/FD-Total", "/FD/IoU-0.05", "/FD/IoU-0.25", "/FD/IoU-0.50", "/FD/Area-small",
+                                        "/FD/Area-medium", "/FD/Area-large"]):
+                TB_obj.log_scalar('validation' + eleX, coco_eval_stats[idX], TB_iter)
         return coco_eval.stats[0], coco_eval.stats[12:]

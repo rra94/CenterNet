@@ -19,6 +19,7 @@ from nnet.py_factory import NetworkFactory
 from torch.multiprocessing import Process, Queue, Pool
 from db.datasets import datasets
 from utils.tensorboard_api import Tensorboard
+from test.coco import kp_detection
 
 torch.backends.cudnn.enabled   = True
 torch.backends.cudnn.benchmark = True
@@ -139,23 +140,14 @@ def train(training_dbs, validation_db, start_iter=0):
     with stdout_to_tqdm() as save_stdout:
         for iteration in tqdm(range(start_iter + 1, max_iteration + 1), file=save_stdout, ncols=80):
             training = pinned_training_queue.get(block=True)
-            training_loss, focal_loss, pull_loss, push_loss, regr_loss = nnet.train(**training)
-            #training_loss, focal_loss, pull_loss, push_loss, regr_loss, cls_loss = nnet.train(**training)
+            out_train = nnet.train(**training)
 
             if display and iteration % display == 0:
-                print("training loss at iteration {}: {}".format(iteration, training_loss.item()))
-                print("focal loss at iteration {}:    {}".format(iteration, focal_loss.item()))
-                print("pull loss at iteration {}:     {}".format(iteration, pull_loss.item())) 
-                print("push loss at iteration {}:     {}".format(iteration, push_loss.item()))
-                print("regr loss at iteration {}:     {}".format(iteration, regr_loss.item()))
-                #print("cls loss at iteration {}:      {}\n".format(iteration, cls_loss.item()))
-                tensorboard.log_scalar('training/total loss', training_loss.item(), iteration)
-                tensorboard.log_scalar('training/focal loss', focal_loss.item(), iteration)
-                tensorboard.log_scalar('training/pull loss', pull_loss.item(), iteration)
-                tensorboard.log_scalar('training/push loss', push_loss.item(), iteration)
-                tensorboard.log_scalar('training/regr loss', regr_loss.item(), iteration)
+                for idX, eleX in enumerate(["training", "focal", "pull", "push", "regr"]):
+                    print("{} loss at iteration {}: {}".format(eleX, iteration, out_train[idX].item()))
+                    tensorboard.log_scalar('training/{} loss'.format(eleX), out_train[idX].item(), iteration)
 
-            del training_loss, focal_loss, pull_loss, push_loss, regr_loss#, cls_loss
+            del out_train
 
             if val_iter and validation_db.db_inds.size and iteration % val_iter == 0:
                 nnet.eval_mode()
@@ -163,6 +155,7 @@ def train(training_dbs, validation_db, start_iter=0):
                 validation_loss = nnet.validate(**validation)
                 print("validation loss at iteration {}: {}".format(iteration, validation_loss.item()))
                 tensorboard.log_scalar('validation/loss', validation_loss.item(), iteration)
+                kp_detection(validation_db, nnet, "./cache/", debug=False, subset_val=True,  TB_obj=tensorboard, TB_iter=iteration)
                 nnet.train_mode()
 
             if iteration % snapshot == 0:

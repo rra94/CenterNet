@@ -56,7 +56,7 @@ def kp_decode(nnet, images, K, ae_threshold=0.5, kernel=3):
     center = center.data.cpu().numpy()
     return detections, center
 
-def kp_detection(db, nnet, result_dir, debug=False, decode_func=kp_decode):
+def kp_detection(db, nnet, result_dir, debug=False, decode_func=kp_decode, subset_val=False, TB_obj=None, TB_iter=0):
     debug_dir = os.path.join(result_dir, "debug")
     if not os.path.exists(debug_dir):
         os.makedirs(debug_dir)
@@ -65,6 +65,8 @@ def kp_detection(db, nnet, result_dir, debug=False, decode_func=kp_decode):
         db_inds = db.db_inds[:100] if debug else db.db_inds
     else:
         db_inds = db.db_inds[:100] if debug else db.db_inds[:5000]
+    if subset_val:		
+        db_inds = db.db_inds[:100]
     num_images = db_inds.size
 
     K             = db.configs["top_k"]
@@ -314,7 +316,7 @@ def kp_detection(db, nnet, result_dir, debug=False, decode_func=kp_decode):
 
     cls_ids   = list(range(1, categories + 1))
     image_ids = [db.image_ids(ind) for ind in db_inds]
-    db.evaluate(result_json, cls_ids, image_ids)
+    db.evaluate(result_json, cls_ids, image_ids, TB_obj=TB_obj, TB_iter=TB_iter)
     return 0
 
 def testing(db, nnet, result_dir, debug=False):
