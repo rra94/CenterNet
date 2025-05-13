@@ -1,4 +1,4 @@
-# CenterNet - PyTorch 1.0 - Tensorboard
+# CenterNet - PyTorch 2.7 - Tensorboard
 [CenterNet: Keypoint Triplets for Object Detection](https://arxiv.org/abs/1904.08189)
 
 **CenterNet is an one-stage detector which gets trained from scratch. On the MS-COCO dataset, CenterNet achieves an AP of 47.0%, which surpasses all known one-stage detectors, and even gets very close to the top-performance two-stage detectors.**
@@ -7,8 +7,7 @@
 Please first install [Anaconda](https://anaconda.org) and create an Anaconda environment using following commands.
 ```
 conda env create -f packagelist.yml
-conda activate CenterNet-PT10-TF
-conda install pytorch==1.0.0 torchvision==0.2.1 cuda100 -c pytorch
+conda activate CenterNet-PT27
 ```
 
 ## Compiling Corner Pooling Layers

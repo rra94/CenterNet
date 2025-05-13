@@ -230,6 +230,6 @@ def _regr_loss(regr, gt_regr, mask):
     regr    = regr[mask]
     gt_regr = gt_regr[mask]
     
-    regr_loss = nn.functional.smooth_l1_loss(regr, gt_regr, size_average=False)
+    regr_loss = nn.functional.smooth_l1_loss(regr, gt_regr, reduction='sum')
     regr_loss = regr_loss / (num + 1e-4)
     return regr_loss

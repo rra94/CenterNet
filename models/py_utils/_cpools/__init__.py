@@ -14,7 +14,7 @@ class TopPoolFunction(Function):
 
     @staticmethod
     def backward(ctx, grad_output):
-        input  = ctx.saved_variables[0]
+        input  = ctx.saved_tensors[0]
         output = top_pool.backward(input, grad_output)[0]
         return output
 
@@ -27,7 +27,7 @@ class BottomPoolFunction(Function):
 
     @staticmethod
     def backward(ctx, grad_output):
-        input  = ctx.saved_variables[0]
+        input  = ctx.saved_tensors[0]
         output = bottom_pool.backward(input, grad_output)[0]
         return output
 
@@ -40,7 +40,7 @@ class LeftPoolFunction(Function):
 
     @staticmethod
     def backward(ctx, grad_output):
-        input  = ctx.saved_variables[0]
+        input  = ctx.saved_tensors[0]
         output = left_pool.backward(input, grad_output)[0]
         return output
 
@@ -53,7 +53,7 @@ class RightPoolFunction(Function):
 
     @staticmethod
     def backward(ctx, grad_output):
-        input  = ctx.saved_variables[0]
+        input  = ctx.saved_tensors[0]
         output = right_pool.backward(input, grad_output)[0]
         return output
 

@@ -1,6 +1,5 @@
-name: CenterNet-PT10-TF
+name: CenterNet-PT27
 channels:
-  - <unknown>
   - https://repo.continuum.io/pkgs/free
   - pytorch
   - conda-forge
@@ -75,7 +74,11 @@ dependencies:
   - pycparser=2.18=py36hf9f622e_1
   - pyparsing=2.2.0=py36hee85983_1
   - pyqt=5.9.2=py36h751905a_0
-  - python=3.6.5=hc3d631a_2
+  - python=3.9
+  - pytorch=2.7.0
+  - torchvision=0.22.0
+  - cudatoolkit=11.8
+  - torchaudio=2.3.0
   - python-dateutil=2.7.2=py36_0
   - pytz=2018.4=py36_0
   - pyyaml=3.12=py36hafb9ca4_1
@@ -104,4 +107,3 @@ dependencies:
   - pip:
     - cython==0.29.14
 prefix: /home/umarspa/myAnaconda/envs/CenterNet-PT10-TF
-
